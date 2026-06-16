@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-demo-deployment
+  labels:
+    app: devops-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-demo
+  template:
+    metadata:
+      labels:
+        app: devops-demo
+    spec:
+      containers:
+      - name: demo-app
+        # Replace 'your-dockerhub-username' with your actual username during the demo
+        image: your-dockerhub-username/devops-demo:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-demo-service
+spec:
+  type: NodePort
+  selector:
+    app: devops-demo
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30080
